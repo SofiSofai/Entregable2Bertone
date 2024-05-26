@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Calculadora de Huella de Carbono</title>
+</head>
+<body>
+    <section class="intro">
+        <h1>Calculadora de huella de carbono</h1>
+        <div class="descripción">
+            <p>La huella de carbono es un indicador ambiental que nos permite conocer el impacto ambiental de una actividad, empresa, producto o evento. El objetivo de esta calculadora es definir el valor de la huella de carbono de una organización sin la necesidad de contar con un experto.</p>
+            <p>Los valores a ingresar deben ser <b>ANUALES</b>, ya que el indicador se basa en operaciones de año cerrado.</p>
+        </div>
+    </section>
+    
+    <form id="carbonForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" required>
+
+        <label for="empresa">Empresa:</label>
+        <input type="text" id="empresa" required>
+
+        <label for="transporte">Transporte:</label>
+        <select id="transporte" required>
+            <option value="">Seleccionar</option>
+            <option value="Caminar">Caminar</option>
+            <option value="Bicicleta">Bicicleta</option>
+            <option value="Colectivo urbano">Colectivo urbano</option>
+            <option value="Auto">Auto</option>
+            <option value="Moto">Moto</option>
+        </select>
+
+        <div id="transporteDetalles" style="display: none;">
+            <label for="distancia">Distancia al trabajo (km):</label>
+            <input type="number" id="distancia" step="0.1">
+
+            <div id="compartirAuto" style="display: none;">
+                <label for="cantidadPasajeros">¿Cuántas personas comparten el viaje en automóvil contigo?</label>
+                <input type="number" id="cantidadPasajeros" min="0">
+            </div>
+        </div>
+
+        <label for="consumoEnergetico">Consumo Energético:</label>
+        <select id="consumoEnergetico" required>
+            <option value="">Seleccionar</option>
+            <option value="Electricidad">Electricidad</option>
+            <option value="Gas natural">Gas natural</option>
+            <option value="Diesel">Diesel</option>
+        </select>
+
+        <div id="consumoEnergeticoDetalles" style="display: none;">
+            <label for="cantidadConsumo">Cantidad consumida:</label>
+            <input type="number" id="cantidadConsumo" step="0.1">
+        </div>
+
+        <label for="residuos">Residuos generados (kg):</label>
+        <input type="number" id="residuos" step="0.1" required>
+
+        <button type="submit">Calcular Huella de Carbono</button>
+        <button type="button" id="resetForm">Reiniciar</button>
+    </form>
+    
+    <section id="resultado"></section>
+
+    <section class="notaAlPie">
+        <p class="underline">Primera pre entrega</p>
+    </section>
+
+    <script src="./main.js"></script>
+</body>
+</html>
+

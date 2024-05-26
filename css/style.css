@@ -1,0 +1,95 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* Establecer estilo base */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FAFAFA;
+    color: #2F4858;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo de la sección de introducción */
+section.intro {
+    padding: 20px;
+    background-color: #E9967A;
+    color: white;
+    text-align: center;
+}
+
+section.intro h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+section.intro .descripción {
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+section.intro .descripción p {
+    margin: 10px 0;
+}
+
+/* Estilo para los formularios */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #2F4858;
+    border-radius: 10px;
+    background-color: white;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #2F4858;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #2F4858;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+form button:hover {
+    background-color: #D07E88;
+}
+
+/* Estilo de la sección de resultados */
+.resultado {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #2F4858;
+}
+
+/* Estilo de la nota al pie */
+section.notaAlPie {
+    text-align: center;
+    padding: 10px;
+    background-color: #4C5875;
+    color: white;
+}
+
+section.notaAlPie p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.underline {
+    text-decoration: underline;
+}
