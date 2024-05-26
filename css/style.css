@@ -1,47 +1,53 @@
-*{
+/* Reset de CSS */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Establecer estilo base */
 body {
     font-family: Arial, sans-serif;
-    background-color: #FAFAFA;
-    color: #2F4858;
-    margin: 0;
-    padding: 0;
+    color: #3F2B29;
+    background-color: #FFF5F5;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
 }
 
-/* Estilo de la sección de introducción */
-section.intro {
-    padding: 20px;
-    background-color: #E9967A;
-    color: white;
+h1 {
+    color: #E9967A;
+    margin-bottom: 20px;
+    font-size: 3rem;
+}
+
+.intro {
     text-align: center;
+    margin-top: 6%;
+    margin-bottom: 4%;
+    height: 60vh;
+    font-size: x-large;
+    color:#3F2B29;
+    margin-left: 2%;
+    margin-right: 2%
 }
 
-section.intro h1 {
-    font-size: 2em;
-    margin: 0;
+.descripción{
+    margin-top: 3%;
 }
 
-section.intro .descripción {
-    font-size: 1em;
-    margin-top: 10px;
+.intro p {
+    margin-bottom: 2%;
 }
 
-section.intro .descripción p {
-    margin: 10px 0;
-}
-
-/* Estilo para los formularios */
 form {
+    width: 100%;
     max-width: 600px;
-    margin: 20px auto;
+    background: #FFA292;
     padding: 20px;
-    border: 1px solid #2F4858;
     border-radius: 10px;
-    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form label {
@@ -50,46 +56,69 @@ form label {
     font-weight: bold;
 }
 
-form input, form select, form button {
+form input,
+form select,
+form button {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #2F4858;
+    margin-bottom: 15px;
+    border: 1px solid #E9967A;
     border-radius: 5px;
+    font-size: 16px;
+}
+
+.valores{
+    background-color: #3F2B29;
+}
+
+form input:focus,
+form select:focus {
+    outline: none;
+    border-color: #FFAFAF;
 }
 
 form button {
-    background-color: #2F4858;
+    background-color: #d08167;
     color: white;
-    cursor: pointer;
     border: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 form button:hover {
-    background-color: #D07E88;
+    background-color:#3F2B29;
 }
 
-/* Estilo de la sección de resultados */
-.resultado {
-    text-align: center;
+#resultado {
     margin-top: 20px;
-    font-size: 1.2em;
-    color: #2F4858;
-}
-
-/* Estilo de la nota al pie */
-section.notaAlPie {
+    background: #FFA292;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 10px;
-    background-color: #4C5875;
-    color: white;
 }
 
-section.notaAlPie p {
-    margin: 0;
-    font-size: 0.9em;
+.notaAlPie {
+    margin-top: 20px;
+    text-align: center;
+    color: #3F2B29;
+    width: 60vh;
 }
 
-.underline {
-    text-decoration: underline;
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    #resultado {
+        padding: 15px;
+    }
 }
