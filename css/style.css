@@ -1,120 +1,146 @@
-/* Reset de CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
-    color: #3F2B29;
-    background-color: #FFF5F5;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0;
     padding: 20px;
-}
-
-h1 {
-    color: #E9967A;
-    margin-bottom: 20px;
-    font-size: 3rem;
+    background-color: #81b1a4;
+    background-image: linear-gradient(26deg, #81b1a4 0%, #985f99 41%, #d9b26f 83%);
+    ;
 }
 
 .intro {
     text-align: center;
-    margin-top: 6%;
-    margin-bottom: 4%;
-    height: 60vh;
-    font-size: x-large;
-    color:#3F2B29;
-    margin-left: 2%;
-    margin-right: 2%
+    margin-bottom: 20px;
 }
 
-.descripción{
-    margin-top: 3%;
+.intro h1 {
+    font-size: 4.2rem;
+    color: #689689;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.intro p {
-    margin-bottom: 2%;
+.descripción p {
+    font-size: 1.1em;
+    color: #504136;
+    margin: 0 10px;
+}
+
+.notaAlPie {
+    font-size: 1.1em;
+    color: #504136;
+    margin: 0 10px;
 }
 
 form {
-    width: 100%;
     max-width: 600px;
-    background: #FFA292;
+    margin: 0 auto;
+    background: #689689;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 form label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    color: #f3c981;
 }
 
-form input,
-form select,
-form button {
+form input, form select, form button {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #E9967A;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-form input:focus,
-form select:focus {
-    outline: none;
-    border-color: #FFAFAF;
+    margin-bottom: 20px;
+    border: 1px solid #f3c981;
+    border-radius: 4px;
 }
 
 form button {
-    background-color: #d08167;
-    color: white;
-    border: none;
+    background-color: #D9B26F;
+    color: #504136;
     cursor: pointer;
-    font-weight: bold;
+    box-shadow: rgba(0.7 0, 0, 0.12) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+form button[type="button"] {
+    background-color: #D9B26F;
 }
 
 form button:hover {
-    background-color:#3F2B29;
+    opacity: 0.8;
 }
 
 #resultado {
-    margin-top: 20px;
-    background: #FFA292;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
     max-width: 600px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: #D9B26F;
+    color: #504136;
+    border-radius: 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.notaAlPie {
-    margin-top: 20px;
-    text-align: center;
-    color: #3F2B29;
-    width: 60vh;
+.error {
+    color: #985F99;
+    font-weight: bold;
 }
 
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
     body {
         padding: 10px;
+    }
+
+    .intro h1 {
+        font-size: 2em;
+    }
+
+    .descripción p {
+        font-size: 1em;
     }
 
     form {
         padding: 15px;
     }
 
+    form input, form select, form button {
+        padding: 8px;
+    }
+
     #resultado {
         padding: 15px;
+    }
+}
+
+/* Responsivo para pantallas medianas */
+@media (max-width: 768px) {
+    .intro h1 {
+        font-size: 2.2em;
+    }
+
+    .descripción p {
+        font-size: 1.05em;
+    }
+
+    form {
+        padding: 18px;
+    }
+
+    form input, form select, form button {
+        padding: 9px;
+    }
+
+    #resultado {
+        padding: 18px;
+    }
+}
+
+/* Ajustes generales */
+@media (max-width: 480px) {
+    .intro h1 {
+        font-size: 1.8em;
+    }
+
+    .descripción p {
+        font-size: 0.9em;
     }
 }

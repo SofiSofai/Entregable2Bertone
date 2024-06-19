@@ -1,34 +1,3 @@
-// Declarar variables, constantes y arrays
-let nombreUsuario;
-let apellidoUsuario;
-let empresaUsuario;
-let transporte;
-let distanciaTrabajoAuto = 0;
-let distanciaTrabajoMoto = 0;
-let distanciaTrabajoUrbano = 0;
-let emisionesTransporteTotal;
-
-let consumoEnergetico;
-let consumoEnergeticoElectrico = 0;
-let consumoEnergeticoGLP = 0;
-let consumoEnergeticoDiesel = 0;
-let emisionesEnergiaTotal;
-
-let residuosGenerados = 0;
-
-let huellaCarbonoTotal;
-
-const factorEmisionTransporteAuto = 2.5; // en kg CO2 por kilómetro recorrido
-const factorEmisionTransporteMoto = 2; // en kg CO2 por kilómetro recorrido
-const factorEmisionTransporteUrbano = 1.8; // en kg CO2 por kilómetro recorrido
-const factorEmisionEnergiaElectrica = 0.5; // en kg CO2 por kWh consumido
-const factorEmisionEnergiaGLP = 1.3; // en kg CO2 por m3 consumido
-const factorEmisionEnergiaDiesel = 1.3; // en kg CO2 por m3 consumido
-const factorEmisionResiduos = 0.1; // en kg CO2 por kg de residuos derivados a vertedero
-
-let usuarioEmpresa = []; // Array para almacenar los nombres de las personas que contestaron la encuesta
-let pasajerosAuto = []; // Array para almacenar los nombres de los pasajeros del auto
-
 document.addEventListener('DOMContentLoaded', () => {
     const transporteSelect = document.getElementById('transporte');
     const transporteDetalles = document.getElementById('transporteDetalles');
@@ -38,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const carbonForm = document.getElementById('carbonForm');
     const resultadoSection = document.getElementById('resultado');
     const resetFormButton = document.getElementById('resetForm');
+
+    let usuariosData = [];
 
     transporteSelect.addEventListener('change', (event) => {
         transporteDetalles.style.display = 'none';
@@ -62,10 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     carbonForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        obtenerInformacion();
-        calcularHuellaCarbono();
-        mostrarResultado();
-        guardarDatosUsuario();
+        const datosUsuario = obtenerInformacion();
+        const huellaCarbonoTotal = calcularHuellaCarbono(datosUsuario);
+        mostrarResultado(datosUsuario, huellaCarbonoTotal);
+        guardarDatosUsuario(datosUsuario);
     });
 
     resetFormButton.addEventListener('click', (event) => {
@@ -77,102 +48,114 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function obtenerInformacion() {
-        // Preguntar nombre y apellido del usuario
-        nombreUsuario = document.getElementById('nombre').value;
-        apellidoUsuario = document.getElementById('apellido').value;
-        empresaUsuario = document.getElementById('empresa').value;
+        const nombreUsuario = document.getElementById('nombre').value;
+        const apellidoUsuario = document.getElementById('apellido').value;
+        const empresaUsuario = document.getElementById('empresa').value;
 
-        // Preguntar sobre el transporte utilizado
-        transporte = document.getElementById('transporte').value;
+        const transporte = document.getElementById('transporte').value;
+        let distanciaTrabajo = 0;
+        let cantidadPasajeros = 0;
 
-        // Determinar la distancia al trabajo según el medio de transporte seleccionado
+        if (transporte === 'Auto' || transporte === 'Moto' || transporte === 'Colectivo urbano') {
+            distanciaTrabajo = parseFloat(document.getElementById('distancia').value);
+        }
+
         if (transporte === 'Auto') {
-            distanciaTrabajoAuto = parseFloat(document.getElementById('distancia').value);
-            let cantidadPasajerosAuto = parseInt(document.getElementById('cantidadPasajeros').value);
-
-            pasajerosAuto = []; // Reset pasajerosAuto array
-            for (let i = 0; i < cantidadPasajerosAuto; i++) {
-                let nombrePasajero = prompt(`Ingresa el nombre y apellido del pasajero ${i + 1}:`);
-                pasajerosAuto.push(nombrePasajero);
-            }
-
-        } else if (transporte === 'Moto') {
-            distanciaTrabajoMoto = parseFloat(document.getElementById('distancia').value);
-        } else if (transporte === 'Colectivo urbano') {
-            distanciaTrabajoUrbano = parseFloat(document.getElementById('distancia').value);
-        } else {
-            distanciaTrabajo = 0; // Si no es "Automóvil ni Moto ni Urbano", la distancia al trabajo es 0
+            cantidadPasajeros = parseInt(document.getElementById('cantidadPasajeros').value);
         }
 
-        // Preguntar sobre el consumo energético
-        consumoEnergetico = document.getElementById('consumoEnergetico').value;
+        const consumoEnergetico = document.getElementById('consumoEnergetico').value;
+        let cantidadConsumo = 0;
 
-        // Determinar el consumo energético total
-        if (consumoEnergetico === 'Electricidad') {
-            consumoEnergeticoElectrico = parseFloat(document.getElementById('cantidadConsumo').value);
-        } else if (consumoEnergetico === 'Gas natural') {
-            consumoEnergeticoGLP = parseFloat(document.getElementById('cantidadConsumo').value);
-        } else if (consumoEnergetico === 'Diesel') {
-            consumoEnergeticoDiesel = parseFloat(document.getElementById('cantidadConsumo').value);
+        if (consumoEnergetico === 'Electricidad' || consumoEnergetico === 'Gas natural' || consumoEnergetico === 'Diesel') {
+            cantidadConsumo = parseFloat(document.getElementById('cantidadConsumo').value);
         }
 
-        // Preguntar sobre los residuos generados
-        residuosGenerados = parseFloat(document.getElementById('residuos').value);
+        const residuosGenerados = parseFloat(document.getElementById('residuos').value);
+
+        return {
+            nombreUsuario,
+            apellidoUsuario,
+            empresaUsuario,
+            transporte,
+            distanciaTrabajo,
+            cantidadPasajeros,
+            consumoEnergetico,
+            cantidadConsumo,
+            residuosGenerados
+        };
     }
 
-    function calcularHuellaCarbono() {
-        // Calcular emisiones por transporte
-        let emisionesTransporteAuto = (distanciaTrabajoAuto / (1 + pasajerosAuto.length)) * factorEmisionTransporteAuto;
-        let emisionesTransporteMoto = distanciaTrabajoMoto * factorEmisionTransporteMoto;
-        let emisionesTransporteUrbano = distanciaTrabajoUrbano * factorEmisionTransporteUrbano;
+    function calcularHuellaCarbono(datosUsuario) {
+        const CO2_POR_KM_AUTO = 0.21;
+        const CO2_POR_KM_MOTO = 0.12;
+        const CO2_POR_KM_COLECTIVO = 0.03;
+        const CO2_POR_KWH_ELECTRICIDAD = 0.233;
+        const CO2_POR_M3_GLP = 2.3;
+        const CO2_POR_LITRO_DIESEL = 2.68;
 
-        emisionesTransporteTotal = emisionesTransporteAuto + emisionesTransporteMoto + emisionesTransporteUrbano;
+        let huellaCarbonoTotal = 0;
 
-        // Calcular emisiones por consumo energético
-        let emisionesEnergiaElectrica = consumoEnergeticoElectrico * factorEmisionEnergiaElectrica;
-        let emisionesEnergiaGLP = consumoEnergeticoGLP * factorEmisionEnergiaGLP;
-        let emisionesEnergiaDiesel = consumoEnergeticoDiesel * factorEmisionEnergiaDiesel;
+        if (datosUsuario.transporte === 'Auto') {
+            huellaCarbonoTotal += datosUsuario.distanciaTrabajo * CO2_POR_KM_AUTO / datosUsuario.cantidadPasajeros;
+        } else if (datosUsuario.transporte === 'Moto') {
+            huellaCarbonoTotal += datosUsuario.distanciaTrabajo * CO2_POR_KM_MOTO;
+        } else if (datosUsuario.transporte === 'Colectivo urbano') {
+            huellaCarbonoTotal += datosUsuario.distanciaTrabajo * CO2_POR_KM_COLECTIVO;
+        }
 
-        emisionesEnergiaTotal = emisionesEnergiaElectrica + emisionesEnergiaGLP + emisionesEnergiaDiesel;
+        if (datosUsuario.consumoEnergetico === 'Electricidad') {
+            huellaCarbonoTotal += datosUsuario.cantidadConsumo * CO2_POR_KWH_ELECTRICIDAD;
+        } else if (datosUsuario.consumoEnergetico === 'Gas natural') {
+            huellaCarbonoTotal += datosUsuario.cantidadConsumo * CO2_POR_M3_GLP;
+        } else if (datosUsuario.consumoEnergetico === 'Diesel') {
+            huellaCarbonoTotal += datosUsuario.cantidadConsumo * CO2_POR_LITRO_DIESEL;
+        }
 
-        // Calcular emisiones por residuos generados
-        let emisionesResiduos = residuosGenerados * factorEmisionResiduos;
+        huellaCarbonoTotal += datosUsuario.residuosGenerados * 0.02;
 
-        // Calcular huella de carbono total
-        huellaCarbonoTotal = emisionesTransporteTotal + emisionesEnergiaTotal + emisionesResiduos;
+        return huellaCarbonoTotal;
     }
 
-    function mostrarResultado() {
+    function mostrarResultado(datosUsuario, huellaCarbonoTotal) {
         resultadoSection.innerHTML = `
-            <h2>Resultado:</h2>
-            <p>Nombre: ${nombreUsuario} ${apellidoUsuario}</p>
-            <p>Empresa: ${empresaUsuario}</p>
-            <p>Transporte: ${transporte}</p>
-            <p>Consumo energético: ${consumoEnergetico}</p>
-            <p>Residuos generados: ${residuosGenerados} kg</p>
-            <p><strong>Huella de carbono total: ${huellaCarbonoTotal.toFixed(2)} kg CO2</strong></p>
+            <h2>Resultado de la huella de carbono</h2>
+            <p>Nombre: ${datosUsuario.nombreUsuario} ${datosUsuario.apellidoUsuario}</p>
+            <p>Empresa: ${datosUsuario.empresaUsuario}</p>
+            <p>Transporte: ${datosUsuario.transporte}</p>
+            <p>Consumo Energético: ${datosUsuario.consumoEnergetico}</p>
+            <p>Residuos Generados: ${datosUsuario.residuosGenerados} kg</p>
+            <p>Huella de Carbono Total: ${huellaCarbonoTotal.toFixed(2)} kg CO2e</p>
         `;
     }
 
-    function guardarDatosUsuario() {
-        let usuario = {
-            nombre: nombreUsuario,
-            apellido: apellidoUsuario,
-            empresa: empresaUsuario,
-            transporte: transporte,
-            distanciaTrabajoAuto: distanciaTrabajoAuto,
-            distanciaTrabajoMoto: distanciaTrabajoMoto,
-            distanciaTrabajoUrbano: distanciaTrabajoUrbano,
-            consumoEnergetico: consumoEnergetico,
-            consumoEnergeticoElectrico: consumoEnergeticoElectrico,
-            consumoEnergeticoGLP: consumoEnergeticoGLP,
-            consumoEnergeticoDiesel: consumoEnergeticoDiesel,
-            residuosGenerados: residuosGenerados,
-            huellaCarbonoTotal: huellaCarbonoTotal,
-            pasajerosAuto: pasajerosAuto
-        };
+    function mostrarError(mensaje) {
+        resultadoSection.innerHTML = `<p class="error">${mensaje}</p>`;
+    }
 
-        usuarioEmpresa.push(usuario);
-        localStorage.setItem('usuarioEmpresa', JSON.stringify(usuarioEmpresa));
+    function guardarDatosUsuario(datosUsuario) {
+        fetch('/data/usuarios.json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datosUsuario)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Usuario guardado con éxito:', data))
+        .catch(error => console.error('Error al guardar el usuario:', error));
     }
 });
+
+    async function cargarDatosJSON() {
+        try {
+            const response = await axios.get('./data/data.json');
+            if (response.status === 200) {
+                usuariosData = response.data;
+            }
+        } catch (error) {
+            mostrarError('Error al cargar los datos JSON.');
+        }
+    }
+
+    cargarDatosJSON();
